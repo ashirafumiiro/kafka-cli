@@ -3,18 +3,17 @@ import sys
 from confluent_kafka import Producer, Consumer, KafkaError
 
 
-def check_args(args_dict):
-    '''Checks if the command specified is valid'''
-    if args_dict['command'] == 'receive':
-        if args_dict['from'] == None:
-            print('Add starting point')
-            return False
-    elif args_dict['command'] == 'send':
-        pass
-    else:
-        return False
-
-    return True
+def read_args():
+    ''' 
+    Returns a dictionary containing the args'''
+    parser = argparse.ArgumentParser()
+    parser.add_argument("command", help="Command", choices=['send', 'receive'])
+    parser.add_argument('--channel', help="Topic to be included", required=True)
+    parser.add_argument('--kafka', help="Kafka connection string", required=True)
+    parser.add_argument('--from', help="The point to start receiving messages from", 
+                        choices=['start', 'latest'], default='start')
+    args = parser.parse_args()
+    return vars(args)
 
 
 def send_message(args_dict, testing=False):
@@ -68,4 +67,4 @@ def read_messages(args_dict, testing=False):
 
 
 if __name__ == "__main__":
-    print(check_args({'command': 'send'}))
+    print(read_args())

@@ -5,10 +5,10 @@ In order to send, the send command is specified and the rest of the arguments ad
 ```bash
 python main.py send --channel test --kafka localhost
 ```  
-After the command, the user is able to send messages as they are send to the message brokers.  
+After the command, the user is able to type messages as they are sent to the message brokers.  
 
 ## Receiving
-In order to receive the messages, the send command is specified and in addition to the above arguments, the `--from` argument can be specified depending on whether to read the latest messages or the previous too. The help from the command line script can give further details.
+In order to receive the messages, the receive command is specified and in addition to the above arguments, the `--from` argument can be specified depending on whether to read the latest messages or the previous too. The help from the command line script can give further details.
 ```bash
 python main.py send --channel test --kafka localhost --from latest
 ```
