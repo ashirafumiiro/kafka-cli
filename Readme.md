@@ -13,3 +13,6 @@ In order to receive the messages, the receive command is specified and in additi
 python main.py send --channel test --kafka localhost --from latest
 ```
 By default, `--from` is set to `start`
+
+## Testing
+Testing so far relies on locally installed version of apache kafka. The instance has to be running for the tests to pass

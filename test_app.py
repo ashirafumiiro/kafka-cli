@@ -1,6 +1,6 @@
 import unittest
 import pytest
-from app import read_args
+from app import read_args, send_message, read_messages
 import os
 
 
@@ -27,3 +27,18 @@ class TestReadArgs(unittest.TestCase):
         self.assertTrue(output == '')  # An error occured
 
 
+class TestSendMessage(unittest.TestCase):
+    def test_send_message(self):
+        args_dict = {'command': 'send', 'channel': 'testing', 'kafka': 'localhost', 'from': 'start'}
+        result = send_message(args_dict, testing=True)
+        self.assertTrue(result)
+
+
+class TestReceiveMessages(unittest.TestCase):
+    def test_receive_messages(self):
+        send_args_dict = {'command': 'send', 'channel': 'testing', 
+                            'kafka': 'localhost', 'from': 'start'}
+        receive_args_dict = args_dict = {'command': 'receive', 'channel': 'testing', 
+                                            'kafka': 'localhost', 'from': 'start'}
+        self.assertTrue(send_message(send_args_dict, True))
+        self.assertTrue(read_messages(receive_args_dict, testing=True))   

@@ -27,14 +27,20 @@ def send_message(args_dict, testing=False):
         else:
             print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
     
-    message = input("Enter message or 'q' to quit: ")
+    message = ''
     while message != 'q':
+        if not testing:
+            message = input("Enter message or 'q' to quit: ")
+        else:
+            message = "Test message"
         if message == 'q':
             break
     
         producer.produce(args_dict['channel'], message.encode('utf-8'), callback=delivery_report)
         producer.flush()
-        message = input("Enter message or 'q' to quit: ")
+        if testing:
+            return True
+        
 
 
 def read_messages(args_dict, testing=False):
@@ -61,10 +67,7 @@ def read_messages(args_dict, testing=False):
                 break
 
         print('Received message: {}'.format(msg.value().decode('utf-8')))
-
+        if testing:
+            running = False
     c.close()
-
-
-
-if __name__ == "__main__":
-    print(read_args())
+    return True
