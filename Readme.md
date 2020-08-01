@@ -1,4 +1,5 @@
 # Command-line driven program that allows message exchange
+[![codecov](https://codecov.io/gh/ashirafumiiro/kafka-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/ashirafumiiro/kafka-cli)  
 This application allows you to send or receive messages from kafka cluster using the command line interface. Specifying the right arguments is handled by the `argparse` module from the python library
 ## Sending
 In order to send, the send command is specified and the rest of the arguments added  
