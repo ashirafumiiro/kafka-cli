@@ -17,7 +17,7 @@ def check_args(args_dict):
     return True
 
 
-def send_message(args_dict, message, testing=False):
+def send_message(args_dict, testing=False):
     producer = Producer({'bootstrap.servers': args_dict['kafka']})
 
     def delivery_report(err, msg):
@@ -28,8 +28,14 @@ def send_message(args_dict, message, testing=False):
         else:
             print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
     
-    producer.produce(args_dict['channel'], message.encode('utf-8'), callback=delivery_report)
-    producer.flush()
+    message = input("Enter message or 'q' to quit: ")
+    while message != 'q':
+        if message == 'q':
+            break
+    
+        producer.produce(args_dict['channel'], message.encode('utf-8'), callback=delivery_report)
+        producer.flush()
+        message = input("Enter message or 'q' to quit: ")
 
 
 def read_messages(args_dict, testing=False):
