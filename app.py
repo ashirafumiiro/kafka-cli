@@ -44,11 +44,12 @@ def send_message(args_dict, testing=False):
 
 
 def read_messages(args_dict, testing=False):
+    offset_config = {'start': 'earliest', 'latest': 'latest'}
     c = Consumer({
         'bootstrap.servers': args_dict['kafka'],
         'group.id': 'mygroup',
         'default.topic.config': {
-            'auto.offset.reset': 'smallest'
+            'auto.offset.reset': offset_config[args_dict['from']]  # 'smallest'
         }
     })
 
