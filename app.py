@@ -52,23 +52,27 @@ def read_messages(args_dict, testing=False):
             'auto.offset.reset': offset_config[args_dict['from']]  # 'smallest'
         }
     })
-
+    
     c.subscribe([args_dict['channel']])
     running = True
-    while running:
-        msg = c.poll(1.0)
+    try:
+        while running:
+            msg = c.poll(1.0)
 
-        if msg is None:
-            continue
-        if msg.error():
-            if msg.error().code() == KafkaError._PARTITION_EOF:
+            if msg is None:
                 continue
-            else:
-                print(msg.error())
-                break
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    continue
+                else:
+                    print(msg.error())
+                    break
 
-        print('Received message: {}'.format(msg.value().decode('utf-8')))
-        if testing:
-            running = False
-    c.close()
+            print('Received message: {}'.format(msg.value().decode('utf-8')))
+            if testing:
+                running = False
+    except KeyboardInterrupt:
+        pass
+    finally:
+        c.close()
     return True
